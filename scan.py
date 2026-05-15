@@ -518,6 +518,130 @@ def run_scan(market, universe, suffix, portfolio, cfg, pf_value, currency) -> di
     }
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# EMAIL DELIVERY via Gmail SMTP
+# ─────────────────────────────────────────────────────────────────────────────
+
+def send_email(results: dict, cfg_raw: dict):
+    """
+    Sends HTML alert email via Gmail SMTP.
+    Reads credentials from environment variables (GitHub Secrets):
+      GMAIL_USER         = sender Gmail address
+      GMAIL_APP_PASSWORD = 16-char Gmail App Password
+    Alert email address read from config.json → strategy.alert_email
+    Only sends if there are actionable signals (buys or sells).
+    """
+    import smtplib
+    from email.mime.multipart import MIMEMultipart
+    from email.mime.text import MIMEText
+
+    gmail_user = os.environ.get("GMAIL_USER", "")
+    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "")
+    alert_to   = cfg_raw.get("strategy", {}).get("alert_email", gmail_user)
+
+    if not gmail_user or not gmail_pass:
+        print("  ⚠️ Email skipped — GMAIL_USER or GMAIL_APP_PASSWORD not set in GitHub Secrets", flush=True)
+        return
+
+    # Count signals across both markets
+    india  = results.get("india", {})
+    us     = results.get("us", {})
+    buys   = (india.get("buys", []) + us.get("buys", []))
+    sells  = (india.get("sells", []) + us.get("sells", []))
+    floors = (india.get("floors", []) + us.get("floors", []))
+    total  = len(buys) + len(sells) + len(floors)
+
+    if total == 0:
+        print("  No signals — email skipped", flush=True)
+        return
+
+    # Build subject line
+    parts = []
+    if sells:  parts.append(f"🔴 SELL({len(sells)})")
+    if buys:   parts.append(f"🟢 BUY({len(buys)})")
+    if floors: parts.append(f"🔄 FLOOR({len(floors)})")
+    subject = f"[Momentum] {' | '.join(parts)} — {now_ist()}"
+
+    # ── Build HTML body ──────────────────────────────────────────────
+    def card(bg, border, heading, rows, action, action_color):
+        row_html = "".join(
+            f"<tr style='background:{'#1e0a0a' if i%2==0 else '#1a0808' if 'sell' in bg else '#0f2016' if 'buy' in bg else '#1a1000'}'>"
+            + "".join(f"<td style='padding:8px 12px;color:{vc};font-family:monospace;font-size:12px'>{v}</td>" for v, vc in r)
+            + "</tr>"
+            for i, r in enumerate(rows)
+        )
+        return f"""
+        <div style='margin-bottom:24px;background:{bg};border:1px solid {border};border-radius:12px;overflow:hidden'>
+          <div style='padding:14px 18px;border-bottom:1px solid {border}'>
+            <span style='font-size:16px;font-weight:700;color:#e0e7f1'>{heading}</span>
+          </div>
+          <table style='width:100%;border-collapse:collapse'>{row_html}</table>
+          <div style='padding:10px 16px;border-top:1px solid {border};font-size:12px;color:{action_color}'>{action}</div>
+        </div>"""
+
+    sections = ""
+
+    if sells:
+        rows = [[(s["symbol"], "#f04e6a"), (s["name"][:22], "#c8c8c8"),
+                 (f"Entry: ₹{s['entry_price']}" if "₹" not in str(s.get("currency","")) else f"Entry: {s['entry_price']}", "#c8c8c8"),
+                 (f"Floor: {s['floor_price']}", "#f04e6a"),
+                 (f"⚡ Current: {s['current_price']}", "#ff6b6b"),
+                 (f"P&L: {s['pnl_pct']}%", "#f04e6a" if s['pnl_pct'] < 0 else "#10d48e")]
+                for s in sells]
+        sections += card("rgba(240,78,106,0.08)", "rgba(240,78,106,0.3)",
+                         f"🔴 SELL — Stop Loss Breached ({len(sells)} stock{'s' if len(sells)>1 else ''})",
+                         rows, "⚠️ Sell immediately in demat → Mark as SOLD in portfolio.json", "#ffcccc")
+
+    if buys:
+        rows = [[(b["symbol"], "#10d48e"), (b["name"][:22], "#c8e6c9"),
+                 (f"Price: {b['current_price']}", "#e0e7f1"),
+                 (f"52WH: {b['high52w']}", "#6b7fa3"),
+                 (f"Floor: {b['suggested_floor']}", "#f04e6a"),
+                 (f"Qty: {b['suggested_qty']}", "#e0e7f1")]
+                for b in buys]
+        sections += card("rgba(16,212,142,0.08)", "rgba(16,212,142,0.3)",
+                         f"🟢 BUY — {buys[0].get('entry_mode',100)}% ATH Signal ({len(buys)} stock{'s' if len(buys)>1 else ''})",
+                         rows, "📋 Buy in demat → Set TSL at floor → Add to portfolio.json", "#c8e6c9")
+
+    if floors:
+        rows = [[(f["symbol"], "#f5a623"), (f["name"][:22], "#e0e7f1"),
+                 (f"Current: {f['current_price']}", "#e0e7f1"),
+                 (f"Old floor: {f['old_floor']}", "#6b7fa3"),
+                 (f"⬆ New floor: {f['new_floor']}", "#f5a623"),
+                 (f"+{f['floor_change_pct']}%", "#10d48e")]
+                for f in floors]
+        sections += card("rgba(245,166,35,0.08)", "rgba(245,166,35,0.3)",
+                         f"🔄 FLOOR UPDATE — Trailing Stop Moved Up ({len(floors)} stock{'s' if len(floors)>1 else ''})",
+                         rows, "📋 Update stop-loss orders in demat to new floor prices", "#ffe0b2")
+
+    dashboard_url = "https://pawankesarwani1-create.github.io/momentum-dashboard"
+    html = f"""<!DOCTYPE html><html><body style='background:#05080f;font-family:Outfit,Arial,sans-serif;padding:20px;margin:0'>
+    <div style='max-width:900px;margin:0 auto;background:#0b1120;border:1px solid #1a2540;border-radius:14px;padding:28px'>
+      <h1 style='font-size:20px;font-weight:800;color:#e0e7f1;margin:0 0 6px'>📊 Momentum Strategy Alert</h1>
+      <p style='color:#6b7fa3;font-size:13px;margin:0 0 24px'>{now_ist()} &nbsp;·&nbsp;
+         <a href='{dashboard_url}' style='color:#5b6ef5'>Open Dashboard</a></p>
+      {sections}
+      <p style='color:#3d5078;font-size:11px;margin-top:24px;padding-top:16px;border-top:1px solid #1a2540'>
+        Auto-generated by Momentum Scanner · Only demat execution is manual</p>
+    </div></body></html>"""
+
+    # ── Send via Gmail SMTP SSL ──────────────────────────────────────
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = subject
+        msg["From"]    = gmail_user
+        msg["To"]      = alert_to
+        msg.attach(MIMEText(html, "html"))
+
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(gmail_user, gmail_pass)
+            server.sendmail(gmail_user, alert_to, msg.as_string())
+
+        print(f"  ✅ Email sent to {alert_to} — '{subject}'", flush=True)
+    except Exception as e:
+        print(f"  ❌ Email failed: {e}", flush=True)
+
+
 def main():
     print(f"\n🔍 MOMENTUM SCANNER v2.1 — {now_ist()}", flush=True)
 
@@ -566,6 +690,11 @@ def main():
 
     total = sum(len(results.get(m, {}).get(k, [])) for m in ("india","us") for k in ("buys","sells"))
     print(f"\n✅ Done — {now_ist()} | Actionable signals: {total}", flush=True)
+
+    # Send email alert
+    print("\n📧 Sending email alert...", flush=True)
+    send_email(results, cfg_raw)
+
     return 0
 
 
