@@ -1,53 +1,13 @@
 {
-  "last_scan_ist": "15-May-2026 10:34 IST",
-  "last_india_scan_ist": "15-May-2026 10:34 IST",
-  "last_us_scan_ist": "15-May-2026 10:34 IST",
+  "last_scan_ist": "15-May-2026 10:50 IST",
+  "last_india_scan_ist": "15-May-2026 10:50 IST",
+  "last_us_scan_ist": "15-May-2026 10:50 IST",
   "usd_inr": 84.5,
   "india": {
     "buys": [],
-    "sells": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_price": 1820.0,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "current_price": 779.0,
-        "qty": 10,
-        "invested": 18200.0,
-        "pnl_pct": -57.2
-      }
-    ],
-    "floors": [
-      {
-        "symbol": "RELIANCE",
-        "name": "Reliance Industries",
-        "sector": "Oil & Gas",
-        "current_price": 1338.9,
-        "new_peak": 1338.9,
-        "old_floor": 1.0,
-        "new_floor": 1071.12,
-        "floor_change_pct": 107012.0
-      }
-    ],
+    "sells": [],
+    "floors": [],
     "portfolio": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_date": "2025-01-15",
-        "entry_price": 1820.0,
-        "qty": 10,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "status": "STOP HIT",
-        "notes": "TEST - floor impossibly high, forces SELL alert",
-        "current_price": 779.0,
-        "current_value": 7790.0,
-        "pnl": -10410.0,
-        "pnl_pct": -57.2
-      },
       {
         "symbol": "RELIANCE",
         "name": "Reliance Industries",
@@ -55,71 +15,41 @@
         "entry_date": "2025-01-15",
         "entry_price": 1000.0,
         "qty": 10,
-        "peak_price": 1338.9,
-        "floor_price": 1071.12,
+        "peak_price": 1340.3,
+        "floor_price": 1072.24,
         "status": "ACTIVE",
         "notes": "TEST - peak set very low, forces FLOOR UPDATE alert",
-        "current_price": 1338.9,
-        "current_value": 13389.0,
-        "pnl": 3389.0,
-        "pnl_pct": 33.89
+        "current_price": 1340.3,
+        "current_value": 13403.0,
+        "pnl": 3403.0,
+        "pnl_pct": 34.03
       }
     ],
     "stats": {
-      "scanned": 274,
-      "universe": 300,
+      "scanned": 499,
+      "universe": 504,
       "buy_signals": 0,
-      "sell_signals": 1,
-      "floor_updates": 1,
-      "slots_free": 18,
-      "scan_seconds": 29.5
+      "sell_signals": 0,
+      "floor_updates": 0,
+      "slots_free": 19,
+      "scan_seconds": 45.9
     },
-    "scan_time_ist": "15-May-2026 10:34 IST"
+    "scan_time_ist": "15-May-2026 10:50 IST"
   },
   "us": {
     "buys": [],
-    "sells": [
-      {
-        "symbol": "AAPL",
-        "name": "Apple",
-        "sector": "Technology",
-        "entry_price": 150.0,
-        "peak_price": 150.0,
-        "floor_price": 9999.0,
-        "current_price": 298.21,
-        "qty": 5,
-        "invested": 750.0,
-        "pnl_pct": 98.81
-      }
-    ],
+    "sells": [],
     "floors": [],
-    "portfolio": [
-      {
-        "symbol": "AAPL",
-        "name": "Apple",
-        "sector": "Technology",
-        "entry_date": "2025-01-15",
-        "entry_price": 150.0,
-        "qty": 5,
-        "peak_price": 150.0,
-        "floor_price": 9999.0,
-        "status": "STOP HIT",
-        "notes": "TEST - floor impossibly high, forces SELL alert",
-        "current_price": 298.21,
-        "current_value": 1491.05,
-        "pnl": 741.05,
-        "pnl_pct": 98.81
-      }
-    ],
+    "portfolio": [],
     "stats": {
-      "scanned": 149,
-      "universe": 156,
+      "scanned": 33,
+      "universe": 34,
       "buy_signals": 0,
-      "sell_signals": 1,
+      "sell_signals": 0,
       "floor_updates": 0,
-      "slots_free": 19,
-      "scan_seconds": 15.1
+      "slots_free": 20,
+      "scan_seconds": 3.7
     },
-    "scan_time_ist": "15-May-2026 10:34 IST"
+    "scan_time_ist": "15-May-2026 10:50 IST"
   }
 }
