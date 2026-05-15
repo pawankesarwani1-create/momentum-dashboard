@@ -1,0 +1,20 @@
+{
+  "last_scan_ist": "Never",
+  "last_india_scan_ist": "Never",
+  "last_us_scan_ist": "Never",
+  "scan_duration_seconds": 0,
+  "india": {
+    "buys": [],
+    "sells": [],
+    "floors": [],
+    "portfolio": [],
+    "stats": { "scanned": 0, "signals": 0, "slots_free": 20 }
+  },
+  "us": {
+    "buys": [],
+    "sells": [],
+    "floors": [],
+    "portfolio": [],
+    "stats": { "scanned": 0, "signals": 0, "slots_free": 20 }
+  }
+}
