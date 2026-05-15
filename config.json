@@ -8,6 +8,7 @@
       "floor_alert_threshold_pct": 2,
       "portfolio_value_inr": 1000000
     },
+    "alert_email": "pawan.kesarwani1@gmail.com"
     "us": {
       "entry_mode": 110,
       "trailing_stop_pct": 20,
