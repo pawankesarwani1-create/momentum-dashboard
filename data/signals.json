@@ -1,53 +1,23 @@
 {
-  "last_scan_ist": "15-May-2026 12:48 IST",
-  "last_india_scan_ist": "15-May-2026 12:48 IST",
-  "last_us_scan_ist": "15-May-2026 12:48 IST",
+  "last_scan_ist": "15-May-2026 12:53 IST",
+  "last_india_scan_ist": "15-May-2026 12:53 IST",
+  "last_us_scan_ist": "15-May-2026 12:53 IST",
   "usd_inr": 84.5,
   "india": {
     "buys": [],
-    "sells": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_price": 1820.0,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "current_price": 776.5,
-        "qty": 10,
-        "invested": 18200.0,
-        "pnl_pct": -57.34
-      }
-    ],
+    "sells": [],
     "floors": [],
-    "portfolio": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_date": "2025-01-15",
-        "entry_price": 1820.0,
-        "qty": 10,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "status": "STOP HIT",
-        "notes": "TEST",
-        "current_price": 776.5,
-        "current_value": 7765.0,
-        "pnl": -10435.0,
-        "pnl_pct": -57.34
-      }
-    ],
+    "portfolio": [],
     "stats": {
       "scanned": 499,
       "universe": 504,
       "buy_signals": 0,
-      "sell_signals": 1,
+      "sell_signals": 0,
       "floor_updates": 0,
-      "slots_free": 19,
-      "scan_seconds": 20.6
+      "slots_free": 20,
+      "scan_seconds": 46.5
     },
-    "scan_time_ist": "15-May-2026 12:48 IST"
+    "scan_time_ist": "15-May-2026 12:53 IST"
   },
   "us": {
     "buys": [],
@@ -61,8 +31,8 @@
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 20,
-      "scan_seconds": 1.2
+      "scan_seconds": 2.9
     },
-    "scan_time_ist": "15-May-2026 12:48 IST"
+    "scan_time_ist": "15-May-2026 12:53 IST"
   }
 }

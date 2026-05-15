@@ -1,21 +1,4 @@
 {
-  "india": [
-    {
-      "symbol": "HDFCBANK",
-      "name": "HDFC Bank",
-      "sector": "Banking",
-      "entry_date": "2025-01-15",
-      "entry_price": 1820.0,
-      "qty": 10,
-      "peak_price": 1820.0,
-      "floor_price": 9999.0,
-      "status": "STOP HIT",
-      "notes": "TEST",
-      "current_price": 776.5,
-      "current_value": 7765.0,
-      "pnl": -10435.0,
-      "pnl_pct": -57.34
-    }
-  ],
+  "india": [],
   "us": []
 }
