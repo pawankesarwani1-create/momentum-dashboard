@@ -39,7 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-pip-
 
       - name: Install dependencies
-        run: pip install yfinance pytz requests pandas --quiet
+        run: pip install yfinance pytz requests pandas lxml --quiet
 
       - name: Set scan market
         run: |
