@@ -1,5 +1,6 @@
 {
   "strategy": {
+    "alert_email": "pawan.kesarwani1@gmail.com",
     "india": {
       "entry_mode": 100,
       "trailing_stop_pct": 20,
@@ -8,7 +9,6 @@
       "floor_alert_threshold_pct": 2,
       "portfolio_value_inr": 1000000
     },
-    "alert_email": "pawan.kesarwani1@gmail.com"
     "us": {
       "entry_mode": 110,
       "trailing_stop_pct": 20,
@@ -18,10 +18,5 @@
       "portfolio_value_usd": 10000
     },
     "usd_inr_rate": 84.50
-  },
-  "notes": {
-    "entry_mode": "90=buy at 90% of 52W high (anticipatory), 100=buy at 52W high breakout (classic), 110=buy at 110% of 52W high (confirmed breakout)",
-    "trailing_stop_pct": "Exit when price falls this % from peak",
-    "floor_alert_threshold_pct": "Only alert on floor updates if floor moves more than this % from last level"
   }
 }
