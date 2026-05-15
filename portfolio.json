@@ -1,22 +1,5 @@
 {
-  "_instructions": "TEST DATA \u2014 delete after confirming",
-  "india": [
-    {
-      "symbol": "RELIANCE",
-      "name": "Reliance Industries",
-      "sector": "Oil & Gas",
-      "entry_date": "2025-01-15",
-      "entry_price": 1000.0,
-      "qty": 10,
-      "peak_price": 1340.3,
-      "floor_price": 1072.24,
-      "status": "ACTIVE",
-      "notes": "TEST - peak set very low, forces FLOOR UPDATE alert",
-      "current_price": 1340.3,
-      "current_value": 13403.0,
-      "pnl": 3403.0,
-      "pnl_pct": 34.03
-    }
-  ],
+  "_instructions": "Add real holdings here",
+  "india": [],
   "us": []
 }
