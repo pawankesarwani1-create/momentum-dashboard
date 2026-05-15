@@ -6,12 +6,16 @@
       "name": "HDFC Bank",
       "sector": "Banking",
       "entry_date": "2025-01-15",
-      "entry_price": 1820.00,
+      "entry_price": 1820.0,
       "qty": 10,
-      "peak_price": 1820.00,
-      "floor_price": 9999.00,
-      "status": "ACTIVE",
-      "notes": "TEST"
+      "peak_price": 1820.0,
+      "floor_price": 9999.0,
+      "status": "STOP HIT",
+      "notes": "TEST",
+      "current_price": 776.1,
+      "current_value": 7761.0,
+      "pnl": -10439.0,
+      "pnl_pct": -57.36
     }
   ],
   "us": []
