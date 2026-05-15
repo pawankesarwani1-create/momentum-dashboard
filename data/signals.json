@@ -1,53 +1,13 @@
 {
-  "last_scan_ist": "15-May-2026 12:16 IST",
-  "last_india_scan_ist": "15-May-2026 12:15 IST",
-  "last_us_scan_ist": "15-May-2026 12:16 IST",
+  "last_scan_ist": "15-May-2026 12:44 IST",
+  "last_india_scan_ist": "15-May-2026 12:44 IST",
+  "last_us_scan_ist": "15-May-2026 12:44 IST",
   "usd_inr": 84.5,
   "india": {
     "buys": [],
-    "sells": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_price": 1820.0,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "current_price": 776.55,
-        "qty": 10,
-        "invested": 18200.0,
-        "pnl_pct": -57.33
-      }
-    ],
-    "floors": [
-      {
-        "symbol": "RELIANCE",
-        "name": "Reliance Industries",
-        "sector": "Oil & Gas",
-        "current_price": 1335.6,
-        "new_peak": 1335.6,
-        "old_floor": 1.0,
-        "new_floor": 1068.48,
-        "floor_change_pct": 106748.0
-      }
-    ],
+    "sells": [],
+    "floors": [],
     "portfolio": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_date": "2025-01-15",
-        "entry_price": 1820.0,
-        "qty": 10,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "status": "STOP HIT",
-        "notes": "TEST \u2014 floor impossibly high \u2192 triggers SELL alert",
-        "current_price": 776.55,
-        "current_value": 7765.5,
-        "pnl": -10434.5,
-        "pnl_pct": -57.33
-      },
       {
         "symbol": "RELIANCE",
         "name": "Reliance Industries",
@@ -55,26 +15,26 @@
         "entry_date": "2025-01-15",
         "entry_price": 1200.0,
         "qty": 10,
-        "peak_price": 1335.6,
-        "floor_price": 1068.48,
+        "peak_price": 1336.9,
+        "floor_price": 1069.52,
         "status": "ACTIVE",
         "notes": "TEST \u2014 peak set to 1 \u2192 triggers FLOOR UPDATE alert",
-        "current_price": 1335.6,
-        "current_value": 13356.0,
-        "pnl": 1356.0,
-        "pnl_pct": 11.3
+        "current_price": 1336.9,
+        "current_value": 13369.0,
+        "pnl": 1369.0,
+        "pnl_pct": 11.41
       }
     ],
     "stats": {
       "scanned": 499,
       "universe": 504,
       "buy_signals": 0,
-      "sell_signals": 1,
-      "floor_updates": 1,
-      "slots_free": 18,
-      "scan_seconds": 51.6
+      "sell_signals": 0,
+      "floor_updates": 0,
+      "slots_free": 19,
+      "scan_seconds": 46.6
     },
-    "scan_time_ist": "15-May-2026 12:15 IST"
+    "scan_time_ist": "15-May-2026 12:44 IST"
   },
   "us": {
     "buys": [],
@@ -101,8 +61,8 @@
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 19,
-      "scan_seconds": 4.1
+      "scan_seconds": 2.5
     },
-    "scan_time_ist": "15-May-2026 12:16 IST"
+    "scan_time_ist": "15-May-2026 12:44 IST"
   }
 }

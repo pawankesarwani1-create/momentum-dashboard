@@ -2,36 +2,20 @@
   "_instructions": "DUMMY TEST DATA \u2014 delete after email test",
   "india": [
     {
-      "symbol": "HDFCBANK",
-      "name": "HDFC Bank",
-      "sector": "Banking",
-      "entry_date": "2025-01-15",
-      "entry_price": 1820.0,
-      "qty": 10,
-      "peak_price": 1820.0,
-      "floor_price": 9999.0,
-      "status": "STOP HIT",
-      "notes": "TEST \u2014 floor impossibly high \u2192 triggers SELL alert",
-      "current_price": 776.55,
-      "current_value": 7765.5,
-      "pnl": -10434.5,
-      "pnl_pct": -57.33
-    },
-    {
       "symbol": "RELIANCE",
       "name": "Reliance Industries",
       "sector": "Oil & Gas",
       "entry_date": "2025-01-15",
       "entry_price": 1200.0,
       "qty": 10,
-      "peak_price": 1335.6,
-      "floor_price": 1068.48,
+      "peak_price": 1336.9,
+      "floor_price": 1069.52,
       "status": "ACTIVE",
       "notes": "TEST \u2014 peak set to 1 \u2192 triggers FLOOR UPDATE alert",
-      "current_price": 1335.6,
-      "current_value": 13356.0,
-      "pnl": 1356.0,
-      "pnl_pct": 11.3
+      "current_price": 1336.9,
+      "current_value": 13369.0,
+      "pnl": 1369.0,
+      "pnl_pct": 11.41
     }
   ],
   "us": [
