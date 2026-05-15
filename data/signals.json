@@ -1,53 +1,23 @@
 {
-  "last_scan_ist": "15-May-2026 12:57 IST",
-  "last_india_scan_ist": "15-May-2026 12:57 IST",
-  "last_us_scan_ist": "15-May-2026 12:57 IST",
+  "last_scan_ist": "15-May-2026 13:06 IST",
+  "last_india_scan_ist": "15-May-2026 13:06 IST",
+  "last_us_scan_ist": "15-May-2026 13:06 IST",
   "usd_inr": 84.5,
   "india": {
     "buys": [],
-    "sells": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_price": 1820.0,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "current_price": 776.1,
-        "qty": 10,
-        "invested": 18200.0,
-        "pnl_pct": -57.36
-      }
-    ],
+    "sells": [],
     "floors": [],
-    "portfolio": [
-      {
-        "symbol": "HDFCBANK",
-        "name": "HDFC Bank",
-        "sector": "Banking",
-        "entry_date": "2025-01-15",
-        "entry_price": 1820.0,
-        "qty": 10,
-        "peak_price": 1820.0,
-        "floor_price": 9999.0,
-        "status": "STOP HIT",
-        "notes": "TEST",
-        "current_price": 776.1,
-        "current_value": 7761.0,
-        "pnl": -10439.0,
-        "pnl_pct": -57.36
-      }
-    ],
+    "portfolio": [],
     "stats": {
       "scanned": 499,
       "universe": 504,
       "buy_signals": 0,
-      "sell_signals": 1,
+      "sell_signals": 0,
       "floor_updates": 0,
-      "slots_free": 19,
-      "scan_seconds": 56.2
+      "slots_free": 20,
+      "scan_seconds": 40.9
     },
-    "scan_time_ist": "15-May-2026 12:57 IST"
+    "scan_time_ist": "15-May-2026 13:06 IST"
   },
   "us": {
     "buys": [],
@@ -55,14 +25,14 @@
     "floors": [],
     "portfolio": [],
     "stats": {
-      "scanned": 33,
-      "universe": 34,
+      "scanned": 259,
+      "universe": 265,
       "buy_signals": 0,
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 20,
-      "scan_seconds": 5.0
+      "scan_seconds": 28.4
     },
-    "scan_time_ist": "15-May-2026 12:57 IST"
+    "scan_time_ist": "15-May-2026 13:06 IST"
   }
 }
