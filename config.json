@@ -2,7 +2,7 @@
   "strategy": {
     "alert_email": "pawan.kesarwani1@gmail.com",
     "india": {
-      "entry_mode": 100,
+      "entry_mode": 90,
       "trailing_stop_pct": 20,
       "position_pct": 5,
       "max_stocks": 20,
