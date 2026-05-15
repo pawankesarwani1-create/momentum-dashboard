@@ -7,7 +7,7 @@
       "position_pct": 5,
       "max_stocks": 20,
       "floor_alert_threshold_pct": 2,
-      "portfolio_value_inr": 1000000
+      "portfolio_value_inr": 2000000
     },
     "us": {
       "entry_mode": 110,
@@ -17,6 +17,6 @@
       "floor_alert_threshold_pct": 2,
       "portfolio_value_usd": 10000
     },
-    "usd_inr_rate": 84.50
+    "usd_inr_rate": 95.50
   }
 }
