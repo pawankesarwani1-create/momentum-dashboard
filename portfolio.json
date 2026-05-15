@@ -1,29 +1,37 @@
 {
-  "_instructions": "TEST DATA — delete after confirming",
+  "_instructions": "TEST DATA \u2014 delete after confirming",
   "india": [
     {
       "symbol": "HDFCBANK",
       "name": "HDFC Bank",
       "sector": "Banking",
       "entry_date": "2025-01-15",
-      "entry_price": 1820.00,
+      "entry_price": 1820.0,
       "qty": 10,
-      "peak_price": 1820.00,
-      "floor_price": 9999.00,
-      "status": "ACTIVE",
-      "notes": "TEST - floor impossibly high, forces SELL alert"
+      "peak_price": 1820.0,
+      "floor_price": 9999.0,
+      "status": "STOP HIT",
+      "notes": "TEST - floor impossibly high, forces SELL alert",
+      "current_price": 779.0,
+      "current_value": 7790.0,
+      "pnl": -10410.0,
+      "pnl_pct": -57.2
     },
     {
       "symbol": "RELIANCE",
       "name": "Reliance Industries",
       "sector": "Oil & Gas",
       "entry_date": "2025-01-15",
-      "entry_price": 1000.00,
+      "entry_price": 1000.0,
       "qty": 10,
-      "peak_price": 100.00,
-      "floor_price": 1.00,
+      "peak_price": 1338.9,
+      "floor_price": 1071.12,
       "status": "ACTIVE",
-      "notes": "TEST - peak set very low, forces FLOOR UPDATE alert"
+      "notes": "TEST - peak set very low, forces FLOOR UPDATE alert",
+      "current_price": 1338.9,
+      "current_value": 13389.0,
+      "pnl": 3389.0,
+      "pnl_pct": 33.89
     }
   ],
   "us": [
@@ -32,12 +40,16 @@
       "name": "Apple",
       "sector": "Technology",
       "entry_date": "2025-01-15",
-      "entry_price": 150.00,
+      "entry_price": 150.0,
       "qty": 5,
-      "peak_price": 150.00,
-      "floor_price": 9999.00,
-      "status": "ACTIVE",
-      "notes": "TEST - floor impossibly high, forces SELL alert"
+      "peak_price": 150.0,
+      "floor_price": 9999.0,
+      "status": "STOP HIT",
+      "notes": "TEST - floor impossibly high, forces SELL alert",
+      "current_price": 298.21,
+      "current_value": 1491.05,
+      "pnl": 741.05,
+      "pnl_pct": 98.81
     }
   ]
 }
