@@ -1,5 +1,43 @@
 {
-  "_instructions": "Add real holdings here",
-  "india": [],
-  "us": []
+  "_instructions": "DUMMY TEST DATA — delete after email test",
+  "india": [
+    {
+      "symbol": "HDFCBANK",
+      "name": "HDFC Bank",
+      "sector": "Banking",
+      "entry_date": "2025-01-15",
+      "entry_price": 1820.00,
+      "qty": 10,
+      "peak_price": 1820.00,
+      "floor_price": 9999.00,
+      "status": "ACTIVE",
+      "notes": "TEST — floor impossibly high → triggers SELL alert"
+    },
+    {
+      "symbol": "RELIANCE",
+      "name": "Reliance Industries",
+      "sector": "Oil & Gas",
+      "entry_date": "2025-01-15",
+      "entry_price": 1200.00,
+      "qty": 10,
+      "peak_price": 1.00,
+      "floor_price": 1.00,
+      "status": "ACTIVE",
+      "notes": "TEST — peak set to 1 → triggers FLOOR UPDATE alert"
+    }
+  ],
+  "us": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple",
+      "sector": "Technology",
+      "entry_date": "2025-01-15",
+      "entry_price": 150.00,
+      "qty": 5,
+      "peak_price": 150.00,
+      "floor_price": 9999.00,
+      "status": "ACTIVE",
+      "notes": "TEST — floor impossibly high → triggers SELL alert"
+    }
+  ]
 }
