@@ -1,12 +1,10 @@
 name: Momentum Scanner
 
 on:
-  # ── India scan: 4:15 PM IST = 10:45 AM UTC (Mon-Fri) ──────────────
   schedule:
-    - cron: '45 10 * * 1-5'   # India: after NSE close (4:15 PM IST)
-    - cron: '30 21 * * 1-5'   # US:    after Nasdaq close (3:00 AM IST / 4:30 PM ET)
+    - cron: '45 10 * * 1-5'   # India: 4:15 PM IST (after NSE close)
+    - cron: '30 21 * * 1-5'   # US:    10:30 PM IST (after Nasdaq close)
 
-  # ── Manual trigger from GitHub UI ──────────────────────────────────
   workflow_dispatch:
     inputs:
       market:
@@ -20,36 +18,30 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # needed to commit signals.json back
+      contents: write
 
     steps:
-      # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Set up Python
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # 3. Cache pip dependencies
       - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-yfinance
+          key: ${{ runner.os }}-pip-momentum
           restore-keys: ${{ runner.os }}-pip-
 
-      # 4. Install dependencies
       - name: Install dependencies
-        run: pip install yfinance pytz requests --quiet
+        run: pip install yfinance pytz requests pandas --quiet
 
-      # 5. Determine which market to scan based on trigger
       - name: Set scan market
-        id: market
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "SCAN_MARKET=${{ github.event.inputs.market }}" >> $GITHUB_ENV
@@ -61,24 +53,22 @@ jobs:
             echo "SCAN_MARKET=both" >> $GITHUB_ENV
           fi
 
-      # 6. Run the scanner
       - name: Run momentum scanner
         run: python scan.py
         env:
           SCAN_MARKET: ${{ env.SCAN_MARKET }}
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
 
-      # 7. Commit updated signals.json and portfolio.json back to repo
       - name: Commit results
         run: |
           git config user.name  "Momentum Scanner Bot"
           git config user.email "scanner@github-actions.bot"
           git add data/signals.json portfolio.json
           if git diff --staged --quiet; then
-            echo "No changes to commit (no new signals)"
+            echo "No changes to commit"
           else
-            SCAN_TIME=$(date -u +"%Y-%m-%d %H:%M UTC")
-            MARKET="${{ env.SCAN_MARKET }}"
-            git commit -m "scan: ${MARKET} scan — ${SCAN_TIME}"
+            git commit -m "scan: ${{ env.SCAN_MARKET }} — $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
-            echo "✅ Results committed and pushed"
+            echo "✅ Results committed"
           fi
