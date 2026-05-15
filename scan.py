@@ -564,7 +564,7 @@ def fetch_prices_batch(tickers: list, suffix: str = "") -> dict:
             period="1y",
             interval="1d",
             group_by="ticker",
-            auto_adjust=True,
+            auto_adjust=False,
             progress=False,
             threads=True,
         )
