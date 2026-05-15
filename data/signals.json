@@ -1,20 +1,130 @@
 {
-  "last_scan_ist": "Never",
-  "last_india_scan_ist": "Never",
-  "last_us_scan_ist": "Never",
-  "scan_duration_seconds": 0,
+  "last_scan_ist": "15-May-2026 10:18 IST",
+  "last_india_scan_ist": "15-May-2026 10:18 IST",
+  "last_us_scan_ist": "15-May-2026 10:18 IST",
+  "usd_inr": 84.5,
   "india": {
     "buys": [],
-    "sells": [],
+    "sells": [
+      {
+        "symbol": "HDFCBANK",
+        "name": "HDFC Bank",
+        "sector": "Banking",
+        "entry_price": 1680.0,
+        "peak_price": 1780.0,
+        "floor_price": 1424.0,
+        "current_price": 777.5,
+        "qty": 30,
+        "invested": 50400.0,
+        "pnl_pct": -53.72
+      }
+    ],
     "floors": [],
-    "portfolio": [],
-    "stats": { "scanned": 0, "signals": 0, "slots_free": 20 }
+    "portfolio": [
+      {
+        "symbol": "RELIANCE",
+        "name": "Reliance Industries",
+        "sector": "Oil & Gas",
+        "entry_date": "2025-01-15",
+        "entry_price": 1245.5,
+        "qty": 40,
+        "peak_price": 1380.0,
+        "floor_price": 1104.0,
+        "status": "ACTIVE",
+        "notes": "Added after 52WH breakout",
+        "current_price": 1342.9,
+        "current_value": 53716.0,
+        "pnl": 3896.0,
+        "pnl_pct": 7.82
+      },
+      {
+        "symbol": "HDFCBANK",
+        "name": "HDFC Bank",
+        "sector": "Banking",
+        "entry_date": "2025-02-10",
+        "entry_price": 1680.0,
+        "qty": 30,
+        "peak_price": 1780.0,
+        "floor_price": 1424.0,
+        "status": "STOP HIT",
+        "notes": "",
+        "current_price": 777.5,
+        "current_value": 23325.0,
+        "pnl": -27075.0,
+        "pnl_pct": -53.72
+      }
+    ],
+    "stats": {
+      "scanned": 274,
+      "universe": 300,
+      "buy_signals": 0,
+      "sell_signals": 1,
+      "floor_updates": 0,
+      "slots_free": 18,
+      "scan_seconds": 31.3
+    },
+    "scan_time_ist": "15-May-2026 10:18 IST"
   },
   "us": {
     "buys": [],
-    "sells": [],
+    "sells": [
+      {
+        "symbol": "NVDA",
+        "name": "NVIDIA",
+        "sector": "Semiconductors",
+        "entry_price": 874.5,
+        "peak_price": 950.0,
+        "floor_price": 760.0,
+        "current_price": 235.74,
+        "qty": 3,
+        "invested": 2623.5,
+        "pnl_pct": -73.04
+      }
+    ],
     "floors": [],
-    "portfolio": [],
-    "stats": { "scanned": 0, "signals": 0, "slots_free": 20 }
+    "portfolio": [
+      {
+        "symbol": "NVDA",
+        "name": "NVIDIA",
+        "sector": "Semiconductors",
+        "entry_date": "2025-01-20",
+        "entry_price": 874.5,
+        "qty": 3,
+        "peak_price": 950.0,
+        "floor_price": 760.0,
+        "status": "STOP HIT",
+        "notes": "110% ATH entry",
+        "current_price": 235.74,
+        "current_value": 707.22,
+        "pnl": -1916.28,
+        "pnl_pct": -73.04
+      },
+      {
+        "symbol": "MSFT",
+        "name": "Microsoft",
+        "sector": "Technology",
+        "entry_date": "2025-03-01",
+        "entry_price": 415.0,
+        "qty": 5,
+        "peak_price": 445.0,
+        "floor_price": 356.0,
+        "status": "ACTIVE",
+        "notes": "",
+        "current_price": 409.43,
+        "current_value": 2047.15,
+        "pnl": -27.85,
+        "pnl_pct": -1.34
+      }
+    ],
+    "stats": {
+      "scanned": 149,
+      "universe": 156,
+      "buy_signals": 0,
+      "sell_signals": 1,
+      "floor_updates": 0,
+      "slots_free": 18,
+      "scan_seconds": 14.8
+    },
+    "scan_time_ist": "15-May-2026 10:18 IST"
   }
 }
