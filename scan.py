@@ -65,81 +65,304 @@ def fetch_nifty500_from_nse() -> list:
 
 def fetch_us500_universe() -> list:
     """
-    Fetches S&P 500 from Wikipedia + Nasdaq 100 from Wikipedia.
-    Combined and deduplicated = ~600 top US stocks by market cap.
-    Returns list of (symbol, company_name, sector) tuples.
+    Full hardcoded US universe: S&P 500 + Nasdaq 100 + high-growth stocks.
+    ~530 stocks. No external fetch needed — immune to Wikipedia 403 blocks.
     """
-    print("  Fetching US universe (S&P 500 + Nasdaq 100)...", flush=True)
-    stocks_dict = {}  # symbol -> (name, sector)
-
-    # ── S&P 500 from Wikipedia ──────────────────────────────────────
-    try:
-        sp500_url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-        tables = pd.read_html(sp500_url, header=0)
-        df = tables[0]
-        df.columns = df.columns.str.strip()
-        sym_col  = [c for c in df.columns if "Symbol" in c or "Ticker" in c][0]
-        name_col = [c for c in df.columns if "Security" in c or "Name" in c][0]
-        sec_col  = [c for c in df.columns if "GICS Sector" in c or "Sector" in c][0]
-        for _, row in df.iterrows():
-            sym = str(row[sym_col]).strip().replace(".", "-")
-            if sym and sym != "nan":
-                stocks_dict[sym] = (str(row[name_col]).strip(), str(row[sec_col]).strip())
-        print(f"  S&P 500: {len(stocks_dict)} loaded", flush=True)
-    except Exception as e:
-        print(f"  ⚠️ S&P 500 fetch failed: {e}", flush=True)
-
-    # ── Nasdaq 100 from Wikipedia ────────────────────────────────────
-    try:
-        ndx_url = "https://en.wikipedia.org/wiki/Nasdaq-100"
-        tables = pd.read_html(ndx_url, header=0)
-        # Find the table with ticker symbols
-        for tbl in tables:
-            cols = [str(c).lower() for c in tbl.columns]
-            if any("ticker" in c or "symbol" in c for c in cols):
-                sym_col  = tbl.columns[[i for i, c in enumerate(cols) if "ticker" in c or "symbol" in c][0]]
-                name_col = tbl.columns[[i for i, c in enumerate(cols) if "company" in c or "name" in c][0]] if any("company" in c or "name" in c for c in cols) else sym_col
-                for _, row in tbl.iterrows():
-                    sym = str(row[sym_col]).strip().replace(".", "-")
-                    if sym and sym != "nan" and len(sym) <= 6:
-                        name = str(row[name_col]).strip() if name_col != sym_col else sym
-                        stocks_dict.setdefault(sym, (name, "Technology"))
-                print(f"  Nasdaq 100 added. Total US: {len(stocks_dict)}", flush=True)
-                break
-    except Exception as e:
-        print(f"  ⚠️ Nasdaq 100 fetch failed: {e}", flush=True)
-
-    # ── Extra high-conviction tech/AI stocks not in above lists ──────
-    extra = [
-        ("NVDA","NVIDIA","Semiconductors"), ("META","Meta Platforms","Technology"),
-        ("TSLA","Tesla","Consumer Discretionary"), ("NFLX","Netflix","Communication"),
-        ("PLTR","Palantir","Technology"), ("CRWD","CrowdStrike","Technology"),
-        ("DDOG","Datadog","Technology"), ("SNOW","Snowflake","Technology"),
-        ("NET","Cloudflare","Technology"), ("PANW","Palo Alto Networks","Technology"),
-        ("ZS","Zscaler","Technology"), ("COIN","Coinbase","Financials"),
-        ("HOOD","Robinhood","Financials"), ("SOFI","SoFi Technologies","Financials"),
-        ("RBLX","Roblox","Communication"), ("UBER","Uber","Industrials"),
-        ("ABNB","Airbnb","Consumer Discretionary"), ("DASH","DoorDash","Consumer Discretionary"),
-        ("MELI","MercadoLibre","Consumer Discretionary"), ("SE","Sea Limited","Technology"),
-        ("SHOP","Shopify","Technology"), ("GTLB","GitLab","Technology"),
-        ("MDB","MongoDB","Technology"), ("TEAM","Atlassian","Technology"),
-        ("MNDY","Monday.com","Technology"), ("PATH","UiPath","Technology"),
-        ("S","SentinelOne","Technology"), ("CYBR","CyberArk","Technology"),
-        ("IONQ","IonQ","Technology"), ("RGTI","Rigetti","Technology"),
-        ("APP","AppLovin","Technology"), ("TTD","Trade Desk","Technology"),
-        ("ENPH","Enphase Energy","Utilities"), ("FSLR","First Solar","Utilities"),
+    print("  Loading US universe (S&P500 + Nasdaq100 + Growth)...", flush=True)
+    stocks = [
+        # ── MEGA CAP TECH ──────────────────────────────────────────────
+        ("AAPL","Apple","Technology"),
+        ("MSFT","Microsoft","Technology"),
+        ("NVDA","NVIDIA","Semiconductors"),
+        ("GOOGL","Alphabet A","Technology"),
+        ("GOOG","Alphabet C","Technology"),
+        ("AMZN","Amazon","Consumer Discretionary"),
+        ("META","Meta Platforms","Technology"),
+        ("TSLA","Tesla","Consumer Discretionary"),
+        ("NFLX","Netflix","Communication"),
+        ("ADBE","Adobe","Technology"),
+        # ── SEMICONDUCTORS ────────────────────────────────────────────
+        ("AMD","Advanced Micro Devices","Semiconductors"),
+        ("INTC","Intel","Semiconductors"),
+        ("QCOM","Qualcomm","Semiconductors"),
+        ("AVGO","Broadcom","Semiconductors"),
+        ("TXN","Texas Instruments","Semiconductors"),
+        ("AMAT","Applied Materials","Semiconductor Equip"),
+        ("LRCX","Lam Research","Semiconductor Equip"),
+        ("KLAC","KLA Corporation","Semiconductor Equip"),
+        ("MU","Micron Technology","Semiconductors"),
+        ("MRVL","Marvell Technology","Semiconductors"),
+        ("ASML","ASML Holding","Semiconductor Equip"),
+        ("SNPS","Synopsys","EDA Software"),
+        ("CDNS","Cadence Design","EDA Software"),
+        ("ARM","Arm Holdings","Semiconductors"),
+        ("SMCI","Super Micro Computer","Servers"),
+        ("ON","ON Semiconductor","Semiconductors"),
+        ("MPWR","Monolithic Power","Semiconductors"),
+        ("AMBA","Ambarella","AI Chips"),
+        ("ALGM","Allegro MicroSystems","Semiconductors"),
+        ("PI","Impinj","RFID Chips"),
+        ("SITM","SiTime Corporation","Semiconductors"),
+        # ── CLOUD & SAAS ──────────────────────────────────────────────
+        ("CRM","Salesforce","Technology"),
+        ("NOW","ServiceNow","Technology"),
+        ("WDAY","Workday","Technology"),
+        ("SNOW","Snowflake","Technology"),
+        ("DDOG","Datadog","Technology"),
+        ("TEAM","Atlassian","Technology"),
+        ("MDB","MongoDB","Technology"),
+        ("ORCL","Oracle","Technology"),
+        ("INTU","Intuit","Technology"),
+        ("HUBS","HubSpot","Technology"),
+        ("GTLB","GitLab","Technology"),
+        ("BILL","Bill.com","Technology"),
+        ("PCTY","Paylocity","Technology"),
+        ("PAYC","Paycom Software","Technology"),
+        ("ZI","ZoomInfo","Technology"),
+        ("BRZE","Braze","Technology"),
+        ("TTD","The Trade Desk","Technology"),
+        ("APP","AppLovin","Technology"),
+        ("MNDY","Monday.com","Technology"),
+        ("ASAN","Asana","Technology"),
+        ("PATH","UiPath","Technology"),
+        ("ZM","Zoom Video","Technology"),
+        ("CVLT","Commvault Systems","Technology"),
+        ("ALTR","Altair Engineering","Technology"),
+        ("APPF","AppFolio","Technology"),
+        ("VEEV","Veeva Systems","Healthcare Technology"),
+        # ── CYBERSECURITY ─────────────────────────────────────────────
+        ("PANW","Palo Alto Networks","Cybersecurity"),
+        ("CRWD","CrowdStrike","Cybersecurity"),
+        ("ZS","Zscaler","Cybersecurity"),
+        ("FTNT","Fortinet","Cybersecurity"),
+        ("OKTA","Okta","Cybersecurity"),
+        ("NET","Cloudflare","Cybersecurity"),
+        ("S","SentinelOne","Cybersecurity"),
+        ("TENB","Tenable Holdings","Cybersecurity"),
+        ("QLYS","Qualys","Cybersecurity"),
+        ("VRNS","Varonis Systems","Cybersecurity"),
+        # ── FINANCIALS & BANKS ────────────────────────────────────────
+        ("JPM","JPMorgan Chase","Financials"),
+        ("BAC","Bank of America","Financials"),
+        ("WFC","Wells Fargo","Financials"),
+        ("GS","Goldman Sachs","Financials"),
+        ("MS","Morgan Stanley","Financials"),
+        ("C","Citigroup","Financials"),
+        ("AXP","American Express","Financials"),
+        ("V","Visa","Financials"),
+        ("MA","Mastercard","Financials"),
+        ("BLK","BlackRock","Financials"),
+        ("SPGI","S&P Global","Financials"),
+        ("ICE","Intercontinental Exchange","Financials"),
+        ("CME","CME Group","Financials"),
+        ("CB","Chubb","Financials"),
+        ("PGR","Progressive","Financials"),
+        ("AFL","Aflac","Financials"),
+        ("MET","MetLife","Financials"),
+        ("PRU","Prudential Financial","Financials"),
+        ("USB","US Bancorp","Financials"),
+        ("TFC","Truist Financial","Financials"),
+        ("PNC","PNC Financial","Financials"),
+        ("SCHW","Charles Schwab","Financials"),
+        ("COF","Capital One","Financials"),
+        ("DFS","Discover Financial","Financials"),
+        ("SYF","Synchrony Financial","Financials"),
+        # ── FINTECH ───────────────────────────────────────────────────
+        ("PYPL","PayPal","Fintech"),
+        ("SQ","Block Inc","Fintech"),
+        ("COIN","Coinbase","Fintech"),
+        ("HOOD","Robinhood","Fintech"),
+        ("SOFI","SoFi Technologies","Fintech"),
+        ("AFRM","Affirm Holdings","Fintech"),
+        ("UPST","Upstart Holdings","Fintech"),
+        ("FOUR","Shift4 Payments","Fintech"),
+        ("MQ","Marqeta","Fintech"),
+        ("RELY","Remitly Global","Fintech"),
+        ("LMND","Lemonade","Fintech"),
+        # ── HEALTHCARE & BIOTECH ──────────────────────────────────────
+        ("UNH","UnitedHealth Group","Healthcare"),
+        ("JNJ","Johnson & Johnson","Healthcare"),
+        ("LLY","Eli Lilly","Healthcare"),
+        ("ABBV","AbbVie","Healthcare"),
+        ("MRK","Merck","Healthcare"),
+        ("TMO","Thermo Fisher","Healthcare"),
+        ("ABT","Abbott Laboratories","Healthcare"),
+        ("DHR","Danaher","Healthcare"),
+        ("BMY","Bristol-Myers Squibb","Healthcare"),
+        ("AMGN","Amgen","Biotech"),
+        ("GILD","Gilead Sciences","Biotech"),
+        ("BIIB","Biogen","Biotech"),
+        ("REGN","Regeneron Pharma","Biotech"),
+        ("VRTX","Vertex Pharma","Biotech"),
+        ("MRNA","Moderna","Biotech"),
+        ("ILMN","Illumina","Genomics"),
+        ("IDXX","IDEXX Laboratories","Healthcare"),
+        ("ISRG","Intuitive Surgical","Healthcare"),
+        ("DXCM","DexCom","Healthcare"),
+        ("ALGN","Align Technology","Healthcare"),
+        ("HOLX","Hologic","Healthcare"),
+        ("NTRA","Natera","Healthcare"),
+        ("EXAS","Exact Sciences","Healthcare"),
+        ("HIMS","Hims Hers Health","Telehealth"),
+        ("TDOC","Teladoc Health","Telehealth"),
+        ("CERT","Certara","Healthcare"),
+        ("RXRX","Recursion Pharma","Healthcare"),
+        ("ALNY","Alnylam Pharma","Biotech"),
+        ("IONS","Ionis Pharma","Biotech"),
+        ("BEAM","Beam Therapeutics","Biotech"),
+        ("CRSP","CRISPR Therapeutics","Biotech"),
+        # ── CONSUMER DISCRETIONARY ────────────────────────────────────
+        ("AMZN","Amazon","Consumer Discretionary"),
+        ("TSLA","Tesla","Consumer Discretionary"),
+        ("HD","Home Depot","Consumer Discretionary"),
+        ("MCD","McDonald's","Consumer Discretionary"),
+        ("NKE","Nike","Consumer Discretionary"),
+        ("SBUX","Starbucks","Consumer Discretionary"),
+        ("LOW","Lowe's","Consumer Discretionary"),
+        ("TJX","TJX Companies","Consumer Discretionary"),
+        ("BKNG","Booking Holdings","Consumer Discretionary"),
+        ("ABNB","Airbnb","Consumer Discretionary"),
+        ("EXPE","Expedia Group","Consumer Discretionary"),
+        ("UBER","Uber Technologies","Consumer Discretionary"),
+        ("LYFT","Lyft","Consumer Discretionary"),
+        ("DASH","DoorDash","Consumer Discretionary"),
+        ("MELI","MercadoLibre","Consumer Discretionary"),
+        ("SHOP","Shopify","Consumer Discretionary"),
+        ("ETSY","Etsy","Consumer Discretionary"),
+        ("EBAY","eBay","Consumer Discretionary"),
+        ("CHWY","Chewy","Consumer Discretionary"),
+        ("W","Wayfair","Consumer Discretionary"),
+        ("DKNG","DraftKings","Consumer Discretionary"),
+        ("CART","Instacart Maplebear","Consumer Discretionary"),
+        ("RH","RH Restoration Hardware","Consumer Discretionary"),
+        ("GLBE","Global-E Online","Consumer Discretionary"),
+        ("GRAB","Grab Holdings","Consumer Discretionary"),
+        ("SE","Sea Limited","Consumer Discretionary"),
+        # ── CONSUMER STAPLES ──────────────────────────────────────────
+        ("PG","Procter & Gamble","Consumer Staples"),
+        ("KO","Coca-Cola","Consumer Staples"),
+        ("PEP","PepsiCo","Consumer Staples"),
+        ("COST","Costco","Consumer Staples"),
+        ("WMT","Walmart","Consumer Staples"),
+        ("PM","Philip Morris","Consumer Staples"),
+        ("MO","Altria Group","Consumer Staples"),
+        ("CL","Colgate-Palmolive","Consumer Staples"),
+        ("KMB","Kimberly-Clark","Consumer Staples"),
+        ("GIS","General Mills","Consumer Staples"),
+        ("K","Kellogg","Consumer Staples"),
+        ("CAG","Conagra Brands","Consumer Staples"),
+        ("HRL","Hormel Foods","Consumer Staples"),
+        ("SJM","J.M. Smucker","Consumer Staples"),
+        # ── ENERGY ────────────────────────────────────────────────────
+        ("XOM","Exxon Mobil","Energy"),
+        ("CVX","Chevron","Energy"),
+        ("COP","ConocoPhillips","Energy"),
+        ("EOG","EOG Resources","Energy"),
+        ("SLB","Schlumberger","Energy"),
+        ("MPC","Marathon Petroleum","Energy"),
+        ("PSX","Phillips 66","Energy"),
+        ("VLO","Valero Energy","Energy"),
+        ("HAL","Halliburton","Energy"),
+        ("BKR","Baker Hughes","Energy"),
+        ("OXY","Occidental Petroleum","Energy"),
+        ("DVN","Devon Energy","Energy"),
+        ("FANG","Diamondback Energy","Energy"),
+        ("ENPH","Enphase Energy","Clean Energy"),
+        ("FSLR","First Solar","Clean Energy"),
+        ("PLUG","Plug Power","Clean Energy"),
+        ("CHPT","ChargePoint Holdings","Clean Energy"),
+        ("EVGO","EVgo","Clean Energy"),
+        ("FLNC","Fluence Energy","Clean Energy"),
+        # ── INDUSTRIALS ───────────────────────────────────────────────
+        ("CAT","Caterpillar","Industrials"),
+        ("DE","Deere & Company","Industrials"),
+        ("HON","Honeywell","Industrials"),
+        ("UNP","Union Pacific","Industrials"),
+        ("GE","GE Aerospace","Industrials"),
+        ("RTX","RTX Corporation","Industrials"),
+        ("LMT","Lockheed Martin","Industrials"),
+        ("NOC","Northrop Grumman","Industrials"),
+        ("BA","Boeing","Industrials"),
+        ("GD","General Dynamics","Industrials"),
+        ("MMM","3M Company","Industrials"),
+        ("EMR","Emerson Electric","Industrials"),
+        ("ETN","Eaton Corporation","Industrials"),
+        ("PH","Parker-Hannifin","Industrials"),
+        ("ROK","Rockwell Automation","Industrials"),
+        ("ODFL","Old Dominion Freight","Industrials"),
+        ("SAIA","Saia Inc","Industrials"),
+        ("XPO","XPO Logistics","Industrials"),
+        ("CPRT","Copart","Industrials"),
+        ("FAST","Fastenal","Industrials"),
+        ("KTOS","Kratos Defense","Industrials"),
+        ("AVAV","AeroVironment","Industrials"),
+        ("LDOS","Leidos Holdings","Industrials"),
+        # ── REAL ESTATE ───────────────────────────────────────────────
+        ("PLD","Prologis","Real Estate"),
+        ("AMT","American Tower","Real Estate"),
+        ("EQIX","Equinix","Real Estate"),
+        ("CCI","Crown Castle","Real Estate"),
+        ("SPG","Simon Property Group","Real Estate"),
+        ("O","Realty Income","Real Estate"),
+        ("WELL","Welltower","Real Estate"),
+        ("DLR","Digital Realty","Real Estate"),
+        ("PSA","Public Storage","Real Estate"),
+        ("AVB","AvalonBay Communities","Real Estate"),
+        ("CSGP","CoStar Group","Real Estate"),
+        ("OPEN","Opendoor Technologies","Real Estate"),
+        # ── MATERIALS ─────────────────────────────────────────────────
+        ("LIN","Linde","Materials"),
+        ("APD","Air Products","Materials"),
+        ("SHW","Sherwin-Williams","Materials"),
+        ("ECL","Ecolab","Materials"),
+        ("NEM","Newmont Corporation","Materials"),
+        ("FCX","Freeport-McMoRan","Materials"),
+        ("NUE","Nucor Corporation","Materials"),
+        ("CF","CF Industries","Materials"),
+        ("MOS","Mosaic Company","Materials"),
+        # ── UTILITIES ─────────────────────────────────────────────────
+        ("NEE","NextEra Energy","Utilities"),
+        ("DUK","Duke Energy","Utilities"),
+        ("SO","Southern Company","Utilities"),
+        ("D","Dominion Energy","Utilities"),
+        ("AEP","American Electric Power","Utilities"),
+        ("EXC","Exelon","Utilities"),
+        ("SRE","Sempra Energy","Utilities"),
+        ("PCG","PG&E Corporation","Utilities"),
+        ("XEL","Xcel Energy","Utilities"),
+        ("WEC","WEC Energy Group","Utilities"),
+        # ── COMMUNICATION ─────────────────────────────────────────────
+        ("T","AT&T","Communication"),
+        ("VZ","Verizon","Communication"),
+        ("TMUS","T-Mobile US","Communication"),
+        ("SPOT","Spotify","Communication"),
+        ("PINS","Pinterest","Communication"),
+        ("SNAP","Snap Inc","Communication"),
+        ("BMBL","Bumble","Communication"),
+        ("MTCH","Match Group","Communication"),
+        ("ROKU","Roku","Communication"),
+        ("WBD","Warner Bros Discovery","Communication"),
+        ("PARA","Paramount Global","Communication"),
+        # ── AI & NEXT GEN ─────────────────────────────────────────────
+        ("PLTR","Palantir Technologies","AI Analytics"),
+        ("AI","C3.ai","AI Software"),
+        ("SOUN","SoundHound AI","Voice AI"),
+        ("IONQ","IonQ","Quantum Computing"),
+        ("RGTI","Rigetti Computing","Quantum Computing"),
+        ("RBLX","Roblox","Gaming Metaverse"),
+        ("U","Unity Software","Game Engine"),
+        ("TTWO","Take-Two Interactive","Gaming"),
+        ("EA","Electronic Arts","Gaming"),
     ]
-    for sym, name, sec in extra:
-        stocks_dict.setdefault(sym, (name, sec))
-
-    result = [(sym, info[0], info[1]) for sym, info in stocks_dict.items()]
-
-    if not result:
-        print("  ⚠️ All US fetches failed — using fallback", flush=True)
-        return get_us500_fallback()
-
-    print(f"  ✅ US universe: {len(result)} stocks total", flush=True)
-    return result
+    # Deduplicate preserving order
+    seen = set()
+    unique = []
+    for s in stocks:
+        if s[0] not in seen:
+            seen.add(s[0])
+            unique.append(s)
+    print(f"  ✅ US universe: {len(unique)} stocks loaded", flush=True)
+    return unique
 
 
 # ─────────────────────────────────────────────────────────────────────────────
