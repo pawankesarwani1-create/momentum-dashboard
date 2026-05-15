@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="300"> <!-- Auto-refresh every 5 min -->
+<title>Momentum Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05080f;--card:#0b1120;--card2:#0f1729;--bdr:#1a2540;--t1:#e0e7f1;--t2:#6b7fa3;--t3:#3d5078;--ac:#5b6ef5;--gn:#10d48e;--gnd:rgba(16,212,142,.12);--rd:#f04e6a;--rdd:rgba(240,78,106,.12);--am:#f5a623;--amd:rgba(245,166,35,.12);--cy:#0ec6d6;--fd:'Outfit',sans-serif;--fm:'DM Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:var(--fd);background:var(--bg);color:var(--t1);min-height:100vh}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:4px}
+
+/* ── LAYOUT ── */
+.app{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;gap:12px;flex-wrap:wrap}
+.logo h1{font-size:24px;font-weight:800;letter-spacing:-.5px;background:linear-gradient(135deg,#e0e7f1 30%,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo span{font-size:12px;color:var(--t2);display:block;margin-top:2px}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.last-scan{font-size:11px;color:var(--t2);font-family:var(--fm)}
+.refresh-btn{padding:6px 14px;background:var(--ac);color:#fff;border:none;border-radius:7px;font-size:12px;cursor:pointer;font-family:var(--fd);font-weight:600}
+.refresh-btn:hover{filter:brightness(1.15)}
+
+/* ── MARKET TABS ── */
+.market-tabs{display:flex;gap:3px;background:var(--card);padding:4px;border-radius:12px;border:1px solid var(--bdr);margin-bottom:20px}
+.mtab{flex:1;padding:10px;background:0 0;color:var(--t2);border:none;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fd);transition:all .2s;text-align:center}
+.mtab.on{color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.mtab.india.on{background:#0ec6d6}
+.mtab.us.on{background:#a78bfa}
+.mtab.both.on{background:var(--ac)}
+
+/* ── SIGNAL CARDS ── */
+.market-section{display:none}.market-section.on{display:block}
+.signal-grid{display:grid;gap:14px;margin-bottom:20px}
+.signal-card{border-radius:14px;padding:18px 20px;border:1px solid;position:relative;overflow:hidden}
+.signal-card.buy{background:var(--gnd);border-color:rgba(16,212,142,.25)}
+.signal-card.sell{background:var(--rdd);border-color:rgba(240,78,106,.25)}
+.signal-card.floor{background:var(--amd);border-color:rgba(245,166,35,.25)}
+.sc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.sc-symbol{font-size:20px;font-weight:800;font-family:var(--fm)}
+.sc-type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:3px 10px;border-radius:20px}
+.type-buy{background:var(--gn);color:#05080f}
+.type-sell{background:var(--rd);color:#fff}
+.type-floor{background:var(--am);color:#05080f}
+.sc-name{font-size:13px;color:var(--t2);margin-bottom:10px}
+.sc-sector{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(255,255,255,.06);color:var(--t2);margin-bottom:12px}
+.sc-metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.sm{background:rgba(255,255,255,.04);border-radius:8px;padding:8px 10px}
+.sm-label{font-size:10px;color:var(--t2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.sm-val{font-size:14px;font-weight:700;font-family:var(--fm)}
+.gn{color:var(--gn)}.rd{color:var(--rd)}.am{color:var(--am)}.cy{color:var(--cy)}.ac{color:var(--ac)}.t1{color:var(--t1)}
+
+/* ── ACTION BOX ── */
+.action-box{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:600}
+.action-buy{background:rgba(16,212,142,.08);border-left:3px solid var(--gn);color:#a0f0d8}
+.action-sell{background:rgba(240,78,106,.08);border-left:3px solid var(--rd);color:#ffc8cc}
+.action-floor{background:rgba(245,166,35,.08);border-left:3px solid var(--am);color:#ffe0a0}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:40px 20px;color:var(--t3);font-size:14px}
+.empty-icon{font-size:40px;margin-bottom:10px}
+
+/* ── PORTFOLIO TABLE ── */
+.section-title{font-size:14px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.tw{overflow-x:auto;border-radius:12px;border:1px solid var(--bdr);margin-bottom:20px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;padding:10px 14px;color:var(--t2);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--bdr);background:var(--card);white-space:nowrap}
+td{padding:10px 14px;border-bottom:1px solid #0d1525;white-space:nowrap}
+tr:nth-child(even){background:rgba(255,255,255,.015)}
+tr:hover{background:rgba(91,110,245,.05)}
+.mono{font-family:var(--fm)}
+.badge{padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700}
+.badge-g{background:var(--gnd);color:var(--gn)}
+.badge-r{background:var(--rdd);color:var(--rd)}
+.badge-a{background:var(--amd);color:var(--am)}
+
+/* ── SUMMARY STRIP ── */
+.summary-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.ss-card{background:var(--card);border-radius:12px;padding:14px 16px;border:1px solid var(--bdr);text-align:center}
+.ss-val{font-size:22px;font-weight:800;font-family:var(--fm)}
+.ss-label{font-size:11px;color:var(--t2);margin-top:3px}
+
+/* ── LOADING ── */
+.loading{text-align:center;padding:60px 20px}
+.spinner{width:40px;height:40px;border:3px solid var(--bdr);border-top-color:var(--ac);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── STATUS BAR ── */
+.status-bar{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:10px 16px;margin-bottom:16px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;font-family:var(--fm);color:var(--t2)}
+.sb-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:5px}
+.sb-ok{background:var(--gn)}
+.sb-none{background:var(--t3)}
+
+@media(max-width:600px){.header{flex-direction:column}.header-right{align-items:flex-start}.sc-metrics{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="logo">
+      <h1>📊 Momentum Dashboard</h1>
+      <span>Nifty 500 + Nasdaq · 52WH Strategy · Auto-refreshes every 5 min</span>
+    </div>
+    <div class="header-right">
+      <span class="last-scan" id="lastScan">Loading...</span>
+      <button class="refresh-btn" onclick="loadData()">↻ Refresh Now</button>
+    </div>
+  </div>
+
+  <div class="status-bar" id="statusBar">
+    <span><span class="sb-dot sb-none"></span>Loading data...</span>
+  </div>
+
+  <div class="market-tabs">
+    <button class="mtab both on" onclick="switchTab('both')">🌐 All Alerts</button>
+    <button class="mtab india" onclick="switchTab('india')">🇮🇳 India</button>
+    <button class="mtab us" onclick="switchTab('us')">🇺🇸 US Nasdaq</button>
+    <button class="mtab" style="" onclick="switchTab('portfolio')">💼 Portfolio</button>
+  </div>
+
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div style="color:var(--t2);font-size:14px">Fetching latest signals...</div>
+  </div>
+
+  <div id="content" style="display:none">
+    <!-- ALL ALERTS TAB -->
+    <div class="market-section on" id="tab-both">
+      <div class="summary-strip" id="summaryStrip"></div>
+      <div id="allAlerts"></div>
+    </div>
+
+    <!-- INDIA TAB -->
+    <div class="market-section" id="tab-india">
+      <div id="indiaContent"></div>
+    </div>
+
+    <!-- US TAB -->
+    <div class="market-section" id="tab-us">
+      <div id="usContent"></div>
+    </div>
+
+    <!-- PORTFOLIO TAB -->
+    <div class="market-section" id="tab-portfolio">
+      <div id="portfolioContent"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let data = null;
+let activeTab = 'both';
+
+// ── DATA LOAD ──────────────────────────────────────────────────────────────
+async function loadData() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('content').style.display = 'none';
+
+  try {
+    // Cache-bust so GitHub Pages always serves fresh signals.json
+    const ts = Date.now();
+    const res = await fetch(`data/signals.json?t=${ts}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    data = await res.json();
+    renderAll();
+  } catch(e) {
+    document.getElementById('loading').innerHTML =
+      `<div style="color:var(--rd);font-size:14px">⚠️ Could not load signals.json<br><small style="color:var(--t2)">${e.message}</small><br><br><small style="color:var(--t3)">Make sure GitHub Actions has run at least once (check Actions tab on your repo)</small></div>`;
+  }
+}
+
+function fmt(n, d=2) {
+  if (n == null || isNaN(n)) return '–';
+  return Number(n).toLocaleString('en-IN', {minimumFractionDigits: d, maximumFractionDigits: d});
+}
+function fmtPct(n) {
+  if (n == null || isNaN(n)) return '–';
+  return `${n >= 0 ? '+' : ''}${Number(n).toFixed(2)}%`;
+}
+
+// ── RENDER ALL ─────────────────────────────────────────────────────────────
+function renderAll() {
+  if (!data) return;
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('lastScan').textContent = `Last scan: ${data.last_scan_ist || 'Never'}`;
+
+  const india = data.india || {};
+  const us    = data.us    || {};
+  const iStat = india.stats || {};
+  const uStat = us.stats   || {};
+
+  const totalBuys  = (india.buys||[]).length + (us.buys||[]).length;
+  const totalSells = (india.sells||[]).length + (us.sells||[]).length;
+  const totalFloors = (india.floors||[]).length + (us.floors||[]).length;
+
+  // Status bar
+  document.getElementById('statusBar').innerHTML = `
+    <span><span class="sb-dot ${data.last_india_scan_ist&&data.last_india_scan_ist!=='Never'?'sb-ok':'sb-none'}"></span>🇮🇳 India: ${data.last_india_scan_ist||'Never'}</span>
+    <span><span class="sb-dot ${data.last_us_scan_ist&&data.last_us_scan_ist!=='Never'?'sb-ok':'sb-none'}"></span>🇺🇸 US: ${data.last_us_scan_ist||'Never'}</span>
+    <span>📡 ${(iStat.scanned||0)+(uStat.scanned||0)} stocks scanned</span>
+    <span>🟢 ${iStat.slots_free||20} India slots free</span>
+    <span>🟣 ${uStat.slots_free||20} US slots free</span>
+  `;
+
+  // Summary strip
+  document.getElementById('summaryStrip').innerHTML = [
+    {val: totalBuys,  label: 'BUY Signals',    cls: totalBuys>0?'gn':'t1'},
+    {val: totalSells, label: 'SELL Alerts',     cls: totalSells>0?'rd':'t1'},
+    {val: totalFloors,label: 'Floor Updates',   cls: totalFloors>0?'am':'t1'},
+    {val: (india.portfolio||[]).filter(h=>h.status==='ACTIVE').length, label:'India Holdings','cls':'cy'},
+    {val: (us.portfolio||[]).filter(h=>h.status==='ACTIVE').length,    label:'US Holdings',   cls:'ac'},
+  ].map(x => `<div class="ss-card"><div class="ss-val ${x.cls}">${x.val}</div><div class="ss-label">${x.label}</div></div>`).join('');
+
+  // All alerts
+  const allAlerts = [];
+  (india.sells||[]).forEach(s => allAlerts.push({...s, market:'🇮🇳', type:'sell', cur:'₹'}));
+  (us.sells||[]).forEach(s    => allAlerts.push({...s, market:'🇺🇸', type:'sell', cur:'$'}));
+  (india.buys||[]).forEach(s  => allAlerts.push({...s, market:'🇮🇳', type:'buy',  cur:'₹'}));
+  (us.buys||[]).forEach(s     => allAlerts.push({...s, market:'🇺🇸', type:'buy',  cur:'$'}));
+  (india.floors||[]).forEach(s=> allAlerts.push({...s, market:'🇮🇳', type:'floor',cur:'₹'}));
+  (us.floors||[]).forEach(s   => allAlerts.push({...s, market:'🇺🇸', type:'floor',cur:'$'}));
+
+  document.getElementById('allAlerts').innerHTML =
+    allAlerts.length ? renderCards(allAlerts) : emptyState('No signals today — market is quiet');
+
+  // India tab
+  const indiaAlerts = [
+    ...(india.sells||[]).map(s => ({...s, type:'sell', cur:'₹'})),
+    ...(india.buys||[]).map(s  => ({...s, type:'buy',  cur:'₹'})),
+    ...(india.floors||[]).map(s=> ({...s, type:'floor',cur:'₹'})),
+  ];
+  document.getElementById('indiaContent').innerHTML =
+    `<div class="section-title"><span style="color:var(--cy)">🇮🇳 India Nifty 500</span> <small style="color:var(--t2);font-size:11px">${iStat.scanned||0} stocks scanned · ${iStat.slots_free||20} slots free</small></div>` +
+    (indiaAlerts.length ? renderCards(indiaAlerts) : emptyState('No India signals today'));
+
+  // US tab
+  const usAlerts = [
+    ...(us.sells||[]).map(s  => ({...s, type:'sell', cur:'$'})),
+    ...(us.buys||[]).map(s   => ({...s, type:'buy',  cur:'$'})),
+    ...(us.floors||[]).map(s => ({...s, type:'floor',cur:'$'})),
+  ];
+  document.getElementById('usContent').innerHTML =
+    `<div class="section-title"><span style="color:#a78bfa">🇺🇸 US Nasdaq</span> <small style="color:var(--t2);font-size:11px">${uStat.scanned||0} stocks scanned · ${uStat.slots_free||20} slots free</small></div>` +
+    (usAlerts.length ? renderCards(usAlerts) : emptyState('No US signals today'));
+
+  // Portfolio tab
+  document.getElementById('portfolioContent').innerHTML = renderPortfolio(india.portfolio||[], us.portfolio||[]);
+}
+
+// ── RENDER SIGNAL CARDS ───────────────────────────────────────────────────
+function renderCards(alerts) {
+  return `<div class="signal-grid">${alerts.map(a => {
+    const cur = a.cur || '₹';
+    const mkt = a.market || '';
+    if (a.type === 'sell') return `
+      <div class="signal-card sell">
+        <div class="sc-header">
+          <div><span class="sc-symbol rd">${mkt} ${a.symbol}</span></div>
+          <span class="sc-type type-sell">🔴 SELL — Stop Hit</span>
+        </div>
+        <div class="sc-name">${a.name}</div>
+        <span class="sc-sector">${a.sector||''}</span>
+        <div class="sc-metrics">
+          <div class="sm"><div class="sm-label">Entry</div><div class="sm-val t1">${cur}${fmt(a.entry_price)}</div></div>
+          <div class="sm"><div class="sm-label">Peak</div><div class="sm-val gn">${cur}${fmt(a.peak_price)}</div></div>
+          <div class="sm"><div class="sm-label">Floor (TSL)</div><div class="sm-val rd">${cur}${fmt(a.floor_price)}</div></div>
+          <div class="sm"><div class="sm-label">⚡ Current</div><div class="sm-val rd">${cur}${fmt(a.current_price)}</div></div>
+          <div class="sm"><div class="sm-label">P&L</div><div class="sm-val ${a.pnl_pct>=0?'gn':'rd'}">${fmtPct(a.pnl_pct)}</div></div>
+          <div class="sm"><div class="sm-label">Qty</div><div class="sm-val t1">${a.qty}</div></div>
+        </div>
+        <div class="action-box action-sell">⚠️ Sell immediately in demat → Mark as SOLD in portfolio.json</div>
+      </div>`;
+    if (a.type === 'buy') return `
+      <div class="signal-card buy">
+        <div class="sc-header">
+          <div><span class="sc-symbol gn">${mkt} ${a.symbol}</span></div>
+          <span class="sc-type type-buy">🟢 BUY — ${a.entry_mode||100}% ATH Signal</span>
+        </div>
+        <div class="sc-name">${a.name}</div>
+        <span class="sc-sector">${a.sector||''}</span>
+        <div class="sc-metrics">
+          <div class="sm"><div class="sm-label">Current</div><div class="sm-val gn">${cur}${fmt(a.current_price)}</div></div>
+          <div class="sm"><div class="sm-label">52W High</div><div class="sm-val t1">${cur}${fmt(a.high52w)}</div></div>
+          <div class="sm"><div class="sm-label">ATH Target</div><div class="sm-val am">${cur}${fmt(a.ath_target)}</div></div>
+          <div class="sm"><div class="sm-label">Floor (TSL)</div><div class="sm-val rd">${cur}${fmt(a.suggested_floor)}</div></div>
+          <div class="sm"><div class="sm-label">Qty (5%)</div><div class="sm-val t1">${a.suggested_qty}</div></div>
+          <div class="sm"><div class="sm-label">Amount</div><div class="sm-val cy">${cur}${fmt(a.suggested_amount,0)}</div></div>
+        </div>
+        <div class="action-box action-buy">📋 Buy in demat → Set TSL at floor → Add entry to portfolio.json</div>
+      </div>`;
+    if (a.type === 'floor') return `
+      <div class="signal-card floor">
+        <div class="sc-header">
+          <div><span class="sc-symbol am">${mkt} ${a.symbol}</span></div>
+          <span class="sc-type type-floor">🔄 FLOOR UPDATE (+${a.floor_change_pct}%)</span>
+        </div>
+        <div class="sc-name">${a.name}</div>
+        <span class="sc-sector">${a.sector||''}</span>
+        <div class="sc-metrics">
+          <div class="sm"><div class="sm-label">Current</div><div class="sm-val t1">${cur}${fmt(a.current_price)}</div></div>
+          <div class="sm"><div class="sm-label">New Peak</div><div class="sm-val gn">${cur}${fmt(a.new_peak)}</div></div>
+          <div class="sm"><div class="sm-label">Old Floor</div><div class="sm-val t1">${cur}${fmt(a.old_floor)}</div></div>
+          <div class="sm"><div class="sm-label">⬆ New Floor</div><div class="sm-val am">${cur}${fmt(a.new_floor)}</div></div>
+          <div class="sm"><div class="sm-label">Floor Move</div><div class="sm-val gn">+${a.floor_change_pct}%</div></div>
+        </div>
+        <div class="action-box action-floor">📋 Update stop-loss order to new floor in your demat account</div>
+      </div>`;
+    return '';
+  }).join('')}</div>`;
+}
+
+// ── RENDER PORTFOLIO ──────────────────────────────────────────────────────
+function renderPortfolio(indiaP, usP) {
+  function pfTable(holdings, cur, flag) {
+    const active = holdings.filter(h => h.status === 'ACTIVE');
+    if (!active.length) return `<div class="empty"><div class="empty-icon">📭</div>No active ${flag} holdings</div>`;
+    return `<div class="tw"><table>
+      <thead><tr>
+        <th>Symbol</th><th>Name</th><th>Entry</th><th>Qty</th>
+        <th>Current</th><th>Floor (TSL)</th><th>P&L</th><th>Status</th>
+      </tr></thead>
+      <tbody>${active.map(h => {
+        const pnlPct = h.pnl_pct || 0;
+        return `<tr>
+          <td class="mono" style="font-weight:700;color:var(--t1)">${h.symbol}</td>
+          <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;font-size:12px">${h.name}</td>
+          <td class="mono">${cur}${fmt(h.entry_price)}</td>
+          <td class="mono">${h.qty}</td>
+          <td class="mono" style="color:var(--gn)">${cur}${fmt(h.current_price||h.entry_price)}</td>
+          <td class="mono" style="color:var(--rd)">${cur}${fmt(h.floor_price)}</td>
+          <td><span class="badge ${pnlPct>=0?'badge-g':'badge-r'}">${fmtPct(pnlPct)}</span></td>
+          <td><span style="font-size:11px;color:${h.status==='ACTIVE'?'var(--gn)':'var(--rd)'}">${h.status}</span></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`;
+  }
+
+  return `
+    <div class="section-title" style="margin-top:0">🇮🇳 India Portfolio</div>
+    ${pfTable(indiaP, '₹', 'India')}
+    <div class="section-title">🇺🇸 US Portfolio</div>
+    ${pfTable(usP, '$', 'US')}
+    <div style="margin-top:16px;padding:14px;background:rgba(91,110,245,.06);border-radius:10px;border:1px solid rgba(91,110,245,.15);font-size:12px;color:var(--t2);line-height:1.8">
+      <b style="color:var(--t1)">To update portfolio:</b><br>
+      After a BUY → edit <code style="color:var(--ac)">portfolio.json</code> in your GitHub repo, add the new stock<br>
+      After a SELL → change <code style="color:var(--ac)">status</code> to <code style="color:var(--rd)">"SOLD"</code> in portfolio.json<br>
+      Floor prices and peak prices are updated automatically by the scanner
+    </div>`;
+}
+
+function emptyState(msg) {
+  return `<div class="empty"><div class="empty-icon">✅</div>${msg}</div>`;
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  activeTab = tab;
+  document.querySelectorAll('.mtab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.market-section').forEach(s => s.classList.remove('on'));
+  const btn = document.querySelector(`.mtab.${tab}`) || [...document.querySelectorAll('.mtab')].find(b => b.textContent.includes('Portfolio'));
+  if (btn) btn.classList.add('on');
+  const section = document.getElementById(`tab-${tab}`);
+  if (section) section.classList.add('on');
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>

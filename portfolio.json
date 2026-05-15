@@ -1,0 +1,55 @@
+{
+  "_instructions": "Edit this file after each trade. Add to 'india' or 'us' array. Mark status=SOLD after selling. GitHub auto-updates signals.json on next scan.",
+  "india": [
+    {
+      "symbol": "RELIANCE",
+      "name": "Reliance Industries",
+      "sector": "Oil & Gas",
+      "entry_date": "2025-01-15",
+      "entry_price": 1245.50,
+      "qty": 40,
+      "peak_price": 1380.00,
+      "floor_price": 1104.00,
+      "status": "ACTIVE",
+      "notes": "Added after 52WH breakout"
+    },
+    {
+      "symbol": "HDFCBANK",
+      "name": "HDFC Bank",
+      "sector": "Banking",
+      "entry_date": "2025-02-10",
+      "entry_price": 1680.00,
+      "qty": 30,
+      "peak_price": 1780.00,
+      "floor_price": 1424.00,
+      "status": "ACTIVE",
+      "notes": ""
+    }
+  ],
+  "us": [
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA",
+      "sector": "Semiconductors",
+      "entry_date": "2025-01-20",
+      "entry_price": 874.50,
+      "qty": 3,
+      "peak_price": 950.00,
+      "floor_price": 760.00,
+      "status": "ACTIVE",
+      "notes": "110% ATH entry"
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft",
+      "sector": "Technology",
+      "entry_date": "2025-03-01",
+      "entry_price": 415.00,
+      "qty": 5,
+      "peak_price": 445.00,
+      "floor_price": 356.00,
+      "status": "ACTIVE",
+      "notes": ""
+    }
+  ]
+}
