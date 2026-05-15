@@ -1,4 +1,18 @@
 {
-  "india": [],
+  "_instructions": "TEST DATA",
+  "india": [
+    {
+      "symbol": "HDFCBANK",
+      "name": "HDFC Bank",
+      "sector": "Banking",
+      "entry_date": "2025-01-15",
+      "entry_price": 1820.00,
+      "qty": 10,
+      "peak_price": 1820.00,
+      "floor_price": 9999.00,
+      "status": "ACTIVE",
+      "notes": "TEST"
+    }
+  ],
   "us": []
 }
