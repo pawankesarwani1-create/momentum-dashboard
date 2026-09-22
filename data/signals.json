@@ -1,7 +1,7 @@
 {
-  "last_scan_ist": "21-Sep-2026 22:05 IST",
+  "last_scan_ist": "22-Sep-2026 05:43 IST",
   "last_india_scan_ist": "21-Sep-2026 22:05 IST",
-  "last_us_scan_ist": "19-Sep-2026 04:59 IST",
+  "last_us_scan_ist": "22-Sep-2026 05:43 IST",
   "usd_inr": 95.5,
   "india": {
     "buys": [
@@ -332,8 +332,8 @@
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 20,
-      "scan_seconds": 12.0
+      "scan_seconds": 11.5
     },
-    "scan_time_ist": "19-Sep-2026 04:59 IST"
+    "scan_time_ist": "22-Sep-2026 05:43 IST"
   }
 }
