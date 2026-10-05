@@ -1,35 +1,20 @@
 {
-  "last_scan_ist": "03-Oct-2026 06:07 IST",
-  "last_india_scan_ist": "02-Oct-2026 21:52 IST",
+  "last_scan_ist": "06-Oct-2026 00:53 IST",
+  "last_india_scan_ist": "06-Oct-2026 00:53 IST",
   "last_us_scan_ist": "03-Oct-2026 06:07 IST",
   "usd_inr": 95.5,
   "india": {
     "buys": [
       {
-        "symbol": "STLTECH",
-        "name": "Sterlite Technologies Ltd.",
-        "sector": "Telecommunication",
-        "current_price": 955.35,
-        "high52w": 955.35,
-        "low52w": 86.24,
-        "ath_target": 859.82,
-        "entry_mode": 90,
-        "pct_from_high": 0.0,
-        "suggested_floor": 764.28,
-        "suggested_qty": 104,
-        "suggested_amount": 99356.4,
-        "currency": "\u20b9"
-      },
-      {
         "symbol": "CUPID",
         "name": "Cupid Ltd.",
         "sector": "Fast Moving Consumer Goods",
         "current_price": 312.5,
-        "high52w": 314.3,
-        "low52w": 42.95,
-        "ath_target": 282.87,
+        "high52w": 316.0,
+        "low52w": 42.96,
+        "ath_target": 284.4,
         "entry_mode": 90,
-        "pct_from_high": -0.57,
+        "pct_from_high": -1.11,
         "suggested_floor": 250.0,
         "suggested_qty": 320,
         "suggested_amount": 100000.0,
@@ -48,21 +33,6 @@
         "suggested_floor": 1604.08,
         "suggested_qty": 49,
         "suggested_amount": 98249.9,
-        "currency": "\u20b9"
-      },
-      {
-        "symbol": "LGEINDIA",
-        "name": "LG Electronics India Ltd.",
-        "sector": "Consumer Durables",
-        "current_price": 1721.8,
-        "high52w": 1755.0,
-        "low52w": 1318.8,
-        "ath_target": 1579.5,
-        "entry_mode": 90,
-        "pct_from_high": -1.89,
-        "suggested_floor": 1377.44,
-        "suggested_qty": 58,
-        "suggested_amount": 99864.4,
         "currency": "\u20b9"
       },
       {
@@ -108,21 +78,6 @@
         "suggested_floor": 250.2,
         "suggested_qty": 319,
         "suggested_amount": 99767.25,
-        "currency": "\u20b9"
-      },
-      {
-        "symbol": "TDPOWERSYS",
-        "name": "TD Power Systems Ltd.",
-        "sector": "Capital Goods",
-        "current_price": 792.15,
-        "high52w": 817.55,
-        "low52w": 297.67,
-        "ath_target": 735.79,
-        "entry_mode": 90,
-        "pct_from_high": -3.11,
-        "suggested_floor": 633.72,
-        "suggested_qty": 126,
-        "suggested_amount": 99810.9,
         "currency": "\u20b9"
       },
       {
@@ -261,6 +216,21 @@
         "currency": "\u20b9"
       },
       {
+        "symbol": "STLTECH",
+        "name": "Sterlite Technologies Ltd.",
+        "sector": "Telecommunication",
+        "current_price": 955.35,
+        "high52w": 1003.1,
+        "low52w": 86.24,
+        "ath_target": 902.79,
+        "entry_mode": 90,
+        "pct_from_high": -4.76,
+        "suggested_floor": 764.28,
+        "suggested_qty": 104,
+        "suggested_amount": 99356.4,
+        "currency": "\u20b9"
+      },
+      {
         "symbol": "TEGA",
         "name": "Tega Industries Ltd.",
         "sector": "Capital Goods",
@@ -304,6 +274,36 @@
         "suggested_qty": 10,
         "suggested_amount": 92490.0,
         "currency": "\u20b9"
+      },
+      {
+        "symbol": "REDINGTON",
+        "name": "Redington Ltd.",
+        "sector": "Services",
+        "current_price": 397.95,
+        "high52w": 419.5,
+        "low52w": 199.95,
+        "ath_target": 377.55,
+        "entry_mode": 90,
+        "pct_from_high": -5.14,
+        "suggested_floor": 318.36,
+        "suggested_qty": 251,
+        "suggested_amount": 99885.45,
+        "currency": "\u20b9"
+      },
+      {
+        "symbol": "INDHOTEL",
+        "name": "Indian Hotels Co. Ltd.",
+        "sector": "Consumer Services",
+        "current_price": 718.0,
+        "high52w": 757.4,
+        "low52w": 570.95,
+        "ath_target": 681.66,
+        "entry_mode": 90,
+        "pct_from_high": -5.2,
+        "suggested_floor": 574.4,
+        "suggested_qty": 139,
+        "suggested_amount": 99802.0,
+        "currency": "\u20b9"
       }
     ],
     "sells": [],
@@ -316,9 +316,9 @@
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 20,
-      "scan_seconds": 31.1
+      "scan_seconds": 23.9
     },
-    "scan_time_ist": "02-Oct-2026 21:52 IST"
+    "scan_time_ist": "06-Oct-2026 00:53 IST"
   },
   "us": {
     "buys": [],
