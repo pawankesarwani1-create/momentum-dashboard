@@ -1,6 +1,6 @@
 {
-  "last_scan_ist": "10-Oct-2026 06:36 IST",
-  "last_india_scan_ist": "09-Oct-2026 22:41 IST",
+  "last_scan_ist": "13-Oct-2026 01:29 IST",
+  "last_india_scan_ist": "13-Oct-2026 01:29 IST",
   "last_us_scan_ist": "10-Oct-2026 06:36 IST",
   "usd_inr": 95.5,
   "india": {
@@ -10,11 +10,11 @@
         "name": "Cupid Ltd.",
         "sector": "Fast Moving Consumer Goods",
         "current_price": 366.1,
-        "high52w": 368.0,
+        "high52w": 368.95,
         "low52w": 46.72,
-        "ath_target": 331.2,
+        "ath_target": 332.06,
         "entry_mode": 90,
-        "pct_from_high": -0.52,
+        "pct_from_high": -0.77,
         "suggested_floor": 292.88,
         "suggested_qty": 273,
         "suggested_amount": 99945.3,
@@ -25,44 +25,14 @@
         "name": "Laurus Labs Ltd.",
         "sector": "Healthcare",
         "current_price": 2036.6,
-        "high52w": 2065.2,
-        "low52w": 865.1,
-        "ath_target": 1858.68,
+        "high52w": 2069.2,
+        "low52w": 872.85,
+        "ath_target": 1862.28,
         "entry_mode": 90,
-        "pct_from_high": -1.38,
+        "pct_from_high": -1.58,
         "suggested_floor": 1629.28,
         "suggested_qty": 49,
         "suggested_amount": 99793.4,
-        "currency": "\u20b9"
-      },
-      {
-        "symbol": "PTCIL",
-        "name": "PTC Industries Ltd.",
-        "sector": "Capital Goods",
-        "current_price": 24535.0,
-        "high52w": 24900.0,
-        "low52w": 14726.0,
-        "ath_target": 22410.0,
-        "entry_mode": 90,
-        "pct_from_high": -1.47,
-        "suggested_floor": 19628.0,
-        "suggested_qty": 4,
-        "suggested_amount": 98140.0,
-        "currency": "\u20b9"
-      },
-      {
-        "symbol": "CPPLUS",
-        "name": "Aditya Infotech Ltd.",
-        "sector": "Capital Goods",
-        "current_price": 4185.2,
-        "high52w": 4262.4,
-        "low52w": 1314.0,
-        "ath_target": 3836.16,
-        "entry_mode": 90,
-        "pct_from_high": -1.81,
-        "suggested_floor": 3348.16,
-        "suggested_qty": 23,
-        "suggested_amount": 96259.6,
         "currency": "\u20b9"
       },
       {
@@ -78,6 +48,21 @@
         "suggested_floor": 274.4,
         "suggested_qty": 291,
         "suggested_amount": 99813.0,
+        "currency": "\u20b9"
+      },
+      {
+        "symbol": "CPPLUS",
+        "name": "Aditya Infotech Ltd.",
+        "sector": "Capital Goods",
+        "current_price": 4185.2,
+        "high52w": 4279.2,
+        "low52w": 1314.0,
+        "ath_target": 3851.28,
+        "entry_mode": 90,
+        "pct_from_high": -2.2,
+        "suggested_floor": 3348.16,
+        "suggested_qty": 23,
+        "suggested_amount": 96259.6,
         "currency": "\u20b9"
       },
       {
@@ -116,7 +101,7 @@
         "sector": "Financial Services",
         "current_price": 418.0,
         "high52w": 429.6,
-        "low52w": 286.7,
+        "low52w": 288.6,
         "ath_target": 386.64,
         "entry_mode": 90,
         "pct_from_high": -2.7,
@@ -153,21 +138,6 @@
         "suggested_floor": 2449.44,
         "suggested_qty": 32,
         "suggested_amount": 97977.6,
-        "currency": "\u20b9"
-      },
-      {
-        "symbol": "PVRINOX",
-        "name": "PVR INOX Ltd.",
-        "sector": "Media Entertainment & Publication",
-        "current_price": 1327.2,
-        "high52w": 1374.8,
-        "low52w": 918.6,
-        "ath_target": 1237.32,
-        "entry_mode": 90,
-        "pct_from_high": -3.46,
-        "suggested_floor": 1061.76,
-        "suggested_qty": 75,
-        "suggested_amount": 99540.0,
         "currency": "\u20b9"
       },
       {
@@ -266,7 +236,7 @@
         "sector": "Financial Services",
         "current_price": 3318.2,
         "high52w": 3481.4,
-        "low52w": 1737.7,
+        "low52w": 1787.5,
         "ath_target": 3133.26,
         "entry_mode": 90,
         "pct_from_high": -4.69,
@@ -304,6 +274,36 @@
         "suggested_qty": 51,
         "suggested_amount": 98613.6,
         "currency": "\u20b9"
+      },
+      {
+        "symbol": "CYIENT",
+        "name": "Cyient Ltd.",
+        "sector": "Information Technology",
+        "current_price": 1158.8,
+        "high52w": 1222.0,
+        "low52w": 752.85,
+        "ath_target": 1099.8,
+        "entry_mode": 90,
+        "pct_from_high": -5.17,
+        "suggested_floor": 927.04,
+        "suggested_qty": 86,
+        "suggested_amount": 99656.8,
+        "currency": "\u20b9"
+      },
+      {
+        "symbol": "PTCIL",
+        "name": "PTC Industries Ltd.",
+        "sector": "Capital Goods",
+        "current_price": 24535.0,
+        "high52w": 25875.0,
+        "low52w": 14726.0,
+        "ath_target": 23287.5,
+        "entry_mode": 90,
+        "pct_from_high": -5.18,
+        "suggested_floor": 19628.0,
+        "suggested_qty": 4,
+        "suggested_amount": 98140.0,
+        "currency": "\u20b9"
       }
     ],
     "sells": [],
@@ -316,9 +316,9 @@
       "sell_signals": 0,
       "floor_updates": 0,
       "slots_free": 20,
-      "scan_seconds": 40.8
+      "scan_seconds": 29.2
     },
-    "scan_time_ist": "09-Oct-2026 22:41 IST"
+    "scan_time_ist": "13-Oct-2026 01:29 IST"
   },
   "us": {
     "buys": [],
